@@ -1,22 +1,25 @@
 const express = require("express");
-// const connectDB = require("../db/connectDB");
-// const fileUpload = require("express-fileupload");
 const cors = require("cors");
+const connectDB = require("../database/config");
 class Server {
   constructor() {
     this.app = express();
+    this.PORT = process.env.PORT || 3000;
     this.paths = {
-      auth: "/api/auth"
+      auth: "/api/auth",
     };
     this.middleware();
+    this.connectDatabase();
     this.router();
-    // this.connectMondoDB();
   }
 
   middleware() {
     this.app.use(cors());
     this.app.use(express.json());
+  }
 
+  connectDatabase() {
+    connectDB();
   }
 
   router() {
@@ -24,8 +27,8 @@ class Server {
   }
 
   listen() {
-    this.app.listen(5050, () => {
-      console.log(`the app is listening in the port ${5050}`);
+    this.app.listen(this.PORT, () => {
+      console.log(`the app is listening in the port ${this.PORT}`);
     });
   }
 }
