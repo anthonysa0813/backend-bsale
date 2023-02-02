@@ -1,69 +1,69 @@
 const { request, response } = require("express");
-const User = require("../../models/auth");
 const bcryptjs = require("bcryptjs");
 const generateJWT = require("../../helpers/generateJWT");
 const Cookies = require("js-cookie");
+const Admin = require("../../models/auth");
 
-const getAllUser = async (req = request, res = response) => {
+const getAllAdmin = async (req = request, res = response) => {
   res.status(200).json({
-    message: "all users",
+    message: "all admins",
   });
 };
 
-// create a new user
-const createUser = async (req = request, res = response) => {
+// create a new Admin
+const createAdmin = async (req = request, res = response) => {
   try {
     const { email, password } = req.body;
 
     // verificar si el usuario existe en la base de datos
-    const checkUser = await User.findOne({ email });
-    if (checkUser) {
+    const checkAdmin = await Admin.findOne({ email });
+    if (checkAdmin) {
       return res.status(401).json({
-        message: "El usuario ya existe en la base de datos",
+        message: "El Administrador ya existe en la base de datos",
       });
     }
-    const user = await new User({ email, password });
+    const admin = await new Admin({ email, password });
 
     // hashear el password
     const salt = await bcryptjs.genSaltSync();
-    user.password = await bcryptjs.hashSync(password, salt);
+    admin.password = await bcryptjs.hashSync(password, salt);
     // guardamos el usuario en la base de datos
-    user.save();
+    admin.save();
 
     res.status(200).json({
-      message: "create user",
-      user,
+      message: "create Admin",
+      admin,
     });
   } catch (error) {
     throw new Error(error.message);
   }
 };
 
-const updateUser = async (req = request, res = response) => {
+const updateAdmin = async (req = request, res = response) => {
   res.status(200).json({
-    message: "update user",
+    message: "update Admin",
   });
 };
 
-const deleteUser = async (req = request, res = response) => {
+const deleteAdmin = async (req = request, res = response) => {
   res.status(200).json({
-    message: "delete user",
+    message: "delete Admin",
   });
 };
 
-const login = async (req = request, res = response) => {
+const loginAdmin = async (req = request, res = response) => {
   try {
     const { email, password } = req.body;
     // ver si el usuario existe en la base de datos
-    const user = await User.findOne({ email });
-    if (!user) {
+    const admin = await Admin.findOne({ email });
+    if (!admin) {
       return res.status(400).json({
         message: "El email no existe",
       });
     }
 
     // verificar la contraseña
-    const isValidPassword = bcryptjs.compareSync(password, user.password);
+    const isValidPassword = bcryptjs.compareSync(password, admin.password);
     if (!isValidPassword) {
       return res.status(400).json({
         message: "El password es inválido",
@@ -71,11 +71,11 @@ const login = async (req = request, res = response) => {
     }
 
     // si es válido el password, vamos a generar el token.
-    const token = await generateJWT(user.uid);
+    const token = await generateJWT(admin.uid);
     // Cookies.set("token", token, {expires: 7})
 
     return res.status(200).json({
-      user,
+      admin,
       token,
     });
   } catch (error) {
@@ -86,9 +86,9 @@ const login = async (req = request, res = response) => {
 };
 
 module.exports = {
-  getAllUser,
-  createUser,
-  updateUser,
-  deleteUser,
-  login,
+  getAllAdmin,
+  createAdmin,
+  updateAdmin,
+  deleteAdmin,
+  loginAdmin,
 };
