@@ -7,6 +7,7 @@ class Server {
     this.PORT = process.env.PORT || 3000;
     this.paths = {
       auth: "/api/auth",
+      phase1: "/api/phase1",
     };
     this.middleware();
     this.connectDatabase();
@@ -24,6 +25,7 @@ class Server {
 
   router() {
     this.app.use(this.paths.auth, require("../routes/auth"));
+    this.app.use(this.paths.phase1, require("../routes/phases/phase1"));
   }
 
   listen() {

@@ -48,6 +48,11 @@ const AdminSchema = Schema({
     type: String,
     require: [true, "el password es obligatorio"],
   },
+  role: {
+    type: String,
+    enum: ["admin", "user"],
+    default: "admin",
+  },
 });
 
 AdminSchema.methods.toJSON = function () {
