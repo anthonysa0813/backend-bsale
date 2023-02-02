@@ -8,7 +8,7 @@ const Phase1Schema = Schema(
     },
     subtitle: {
       type: String,
-      reqired: [true, "the field subtitle is required"],
+      required: [true, "the field subtitle is required"],
     },
     resume: {
       type: String,
@@ -24,13 +24,13 @@ const Phase1Schema = Schema(
       ref: "User",
       required: true,
     },
-    // questions: [
-    //   {
-    //     type: Schema.Types.ObjectId,
-    //     ref: "User",
-    //     required: true,
-    //   },
-    // ],
+    questions: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Question",
+        required: false,
+      },
+    ],
   },
   {
     timestamps: true,
