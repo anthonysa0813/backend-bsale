@@ -19,11 +19,13 @@ const Phase1Schema = Schema(
       required: false,
       default: true,
     },
-    user: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
+    user: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: false,
+      },
+    ],
     questions: [
       {
         type: Schema.Types.ObjectId,
