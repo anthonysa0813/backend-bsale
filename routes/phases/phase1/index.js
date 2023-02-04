@@ -16,8 +16,6 @@ router.post(
     check("title", "el title es requerido").not().isEmpty(),
     check("subtitle", "el subtitle es requerido").not().isEmpty(),
     check("resume", "el subtitle es requerid,o").not().isEmpty(),
-    check("user", "el user es requerido").isMongoId(),
-    check("role", "role invalido").isIn(["admin"]),
     validationFields,
   ],
   createPhase1

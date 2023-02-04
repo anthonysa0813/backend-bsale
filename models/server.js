@@ -10,12 +10,13 @@ class Server {
       phase1: "/api/phase1",
     };
     this.middleware();
-    this.connectDatabase();
     this.router();
+    this.connectDatabase();
   }
 
   middleware() {
     this.app.use(cors());
+    this.app.use(express.static("public"));
     this.app.use(express.json());
   }
 
