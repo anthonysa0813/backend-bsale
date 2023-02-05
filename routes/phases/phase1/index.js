@@ -21,5 +21,17 @@ router.post(
   createPhase1
 );
 
+router.put("/", (re, res) => {
+  res.json({
+    message: "PUT request",
+  });
+});
+
+router.delete("/", (re, res) => {
+  res.json({
+    message: "DELETE request",
+  });
+});
+
 // export default router
 module.exports = router;
