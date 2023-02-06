@@ -5,7 +5,7 @@ const AlternativeSchema = Schema({
     type: String,
     required: [true, "the option is required"],
   },
-  question: {
+  questionRef: {
     type: Schema.Types.ObjectId,
     ref: "Question",
     required: true,

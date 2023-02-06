@@ -1,10 +1,5 @@
 const { Router } = require("express");
-const {
-  getAllUser,
-  createUser,
-  loginUser,
-  searchUser,
-} = require("../../controller/auth/users");
+
 const { check } = require("express-validator");
 const validationFields = require("../../middlewares/validateFields");
 const {
@@ -14,32 +9,6 @@ const {
 } = require("../../controller/auth/admin");
 
 const router = Router();
-
-router.get("/", getAllUser);
-router.post(
-  "/signup",
-  [
-    check("email", "el email es incorrecto ó está vacío")
-      .isEmail()
-      .not()
-      .isEmpty(),
-    check("password", "el password es requerido").not().isEmpty(),
-    validationFields,
-  ],
-  createUser
-);
-
-router.post(
-  "/login",
-  [
-    check("email", "el email es requerido").isEmail().not().isEmpty(),
-    check("password", "el password es requerido").not().isEmpty(),
-    validationFields,
-  ],
-  loginUser
-);
-
-router.get("/searchUser", searchUser);
 
 router.get("/admin", getAllAdmin);
 router.post(

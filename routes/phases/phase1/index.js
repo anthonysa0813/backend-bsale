@@ -5,7 +5,10 @@ const {
 } = require("../../../controller/phases/phase1");
 const { check } = require("express-validator");
 const validationFields = require("../../../middlewares/validateFields");
-const { createQuestion } = require("../../../controller/questions");
+const {
+  createQuestion,
+  getAllQuestion,
+} = require("../../../controller/questions");
 
 const router = Router();
 
@@ -36,6 +39,8 @@ router.delete("/", (re, res) => {
 
 // create Questions
 router.post("/question", createQuestion);
+
+router.get("/question", getAllQuestion);
 
 // export default router
 module.exports = router;
