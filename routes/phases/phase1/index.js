@@ -5,6 +5,10 @@ const {
 } = require("../../../controller/phases/phase1");
 const { check } = require("express-validator");
 const validationFields = require("../../../middlewares/validateFields");
+const {
+  createQuestion,
+  getAllQuestion,
+} = require("../../../controller/questions");
 
 const router = Router();
 
@@ -20,6 +24,23 @@ router.post(
   ],
   createPhase1
 );
+
+router.put("/", (re, res) => {
+  res.json({
+    message: "PUT request",
+  });
+});
+
+router.delete("/", (re, res) => {
+  res.json({
+    message: "DELETE request",
+  });
+});
+
+// create Questions
+router.post("/question", createQuestion);
+
+router.get("/question", getAllQuestion);
 
 // export default router
 module.exports = router;

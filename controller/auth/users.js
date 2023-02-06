@@ -10,6 +10,19 @@ const getAllUser = async (req = request, res = response) => {
   });
 };
 
+const searchUser = async (req = request, res = response) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({ email: "test1@gmail.com" });
+    return res.json(user);
+  } catch (error) {
+    res.status(404).json({
+      message: "Hubo un error",
+    });
+  }
+};
+
 // create a new user
 const createUser = async (req = request, res = response) => {
   try {
@@ -91,4 +104,5 @@ module.exports = {
   updateUser,
   deleteUser,
   loginUser,
+  searchUser,
 };

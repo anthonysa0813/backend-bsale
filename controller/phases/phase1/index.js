@@ -21,15 +21,15 @@ const createPhase1 = async (req = request, res = response) => {
     const existPhase = await PhaseOne.findOne({ title });
     if (existPhase) {
       return res.status(400).json({
-        message: "La fase 1 ya ha sido creada ",
+        message: "La fase 1 ya ha sido creada anteriormente",
+      });
+    } else {
+      const Phase = new PhaseOne({ title, subtitle, resume });
+      Phase.save();
+      return res.json({
+        message: "La fase 1 ha sido creada",
       });
     }
-
-    const Phase = new PhaseOne({ title, subtitle, resume });
-    Phase.save();
-    res.json({
-      message: "La fase 1 ya ha sido creada",
-    });
   } catch (error) {
     console.log(error);
     res.status(500).json({
