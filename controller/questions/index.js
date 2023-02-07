@@ -4,7 +4,7 @@ const Alternative = require("../../models/alternatives");
 
 const getAllQuestion = async (req = request, res = response) => {
   try {
-    const questions = await Question.find();
+    const questions = await Question.find().populate("alternatives");
     res.json(questions);
   } catch (error) {
     console.log(error);
