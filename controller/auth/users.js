@@ -5,13 +5,26 @@ const generateJWT = require("../../helpers/generateJWT");
 const Cookies = require("js-cookie");
 
 const getAllUser = async (req = request, res = response) => {
-  const Users = await User.find();
-  res.status(200).json(Users);
+  try {
+    const { email } = req.query;
+    if (email) {
+      const user = await User.findOne({ email });
+      return res.json(user);
+    } else {
+      const Users = await User.find();
+      res.status(200).json(Users);
+    }
+  } catch (error) {
+    res.status(404).json({
+      message: "Hubo un error",
+    });
+  }
 };
 
 const searchUser = async (req = request, res = response) => {
   try {
     const { email } = req.body;
+    const { idUser } = req.params;
 
     const user = await User.findOne({ email });
     return res.json(user);

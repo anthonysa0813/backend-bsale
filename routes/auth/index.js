@@ -39,7 +39,7 @@ router.post(
   loginUser
 );
 
-router.get("/searchUser", searchUser);
+router.get("/searchUser/:idUser", searchUser);
 
 router.get("/admin", getAllAdmin);
 router.post(

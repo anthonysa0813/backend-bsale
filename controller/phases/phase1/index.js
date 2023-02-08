@@ -19,8 +19,8 @@ const createPhase1 = async (req = request, res = response) => {
   const { title, subtitle, resume, status, user } = req.body;
 
   try {
-    const existPhase = await PhaseOne.findOne({ title });
-    if (existPhase) {
+    const existPhase = await PhaseOne.find();
+    if (existPhase.length > 0) {
       return res.status(400).json({
         message: "La fase 1 ya ha sido creada anteriormente",
       });
