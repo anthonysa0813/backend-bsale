@@ -5,16 +5,15 @@ const generateJWT = require("../../helpers/generateJWT");
 const Cookies = require("js-cookie");
 
 const getAllUser = async (req = request, res = response) => {
-  res.status(200).json({
-    message: "all users",
-  });
+  const Users = await User.find();
+  res.status(200).json(Users);
 };
 
 const searchUser = async (req = request, res = response) => {
   try {
     const { email } = req.body;
 
-    const user = await User.findOne({ email: "test1@gmail.com" });
+    const user = await User.findOne({ email });
     return res.json(user);
   } catch (error) {
     res.status(404).json({

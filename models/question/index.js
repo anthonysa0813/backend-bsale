@@ -27,6 +27,14 @@ const QuestionSchema = Schema({
   ],
 });
 
+QuestionSchema.methods.toJSON = function () {
+  const { _id: id, __v, ...rest } = this.toObject();
+  return {
+    id,
+    ...rest,
+  };
+};
+
 const QuestionModel = model("Question", QuestionSchema);
 
 module.exports = QuestionModel;

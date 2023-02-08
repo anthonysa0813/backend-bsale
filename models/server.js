@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const connectDB = require("../database/config");
+const morgan = require("morgan");
 class Server {
   constructor() {
     this.app = express();
@@ -18,6 +19,7 @@ class Server {
     this.app.use(cors());
     this.app.use(express.static("public"));
     this.app.use(express.json());
+    this.app.use(morgan("dev"));
   }
 
   connectDatabase() {
