@@ -7,7 +7,7 @@ const Cookies = require("js-cookie");
 const getAllUser = async (req = request, res = response) => {
   try {
     const users = await User.find().exec();
-    return res.json(users);
+    return res.json(users)
   } catch (error) {
     console.log(error);
     res.status(404).json({
