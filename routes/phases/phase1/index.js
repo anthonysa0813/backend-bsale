@@ -2,6 +2,7 @@ const { Router } = require("express");
 const {
   getPhase1,
   createPhase1,
+  addUserToPhase1,
 } = require("../../../controller/phases/phase1");
 const { check } = require("express-validator");
 const validationFields = require("../../../middlewares/validateFields");
@@ -12,7 +13,7 @@ const {
 
 const router = Router();
 
-router.get("", getPhase1);
+router.get("/", getPhase1);
 
 router.post(
   "/",
@@ -24,6 +25,8 @@ router.post(
   ],
   createPhase1
 );
+
+router.put("/addUser", addUserToPhase1);
 
 router.put("/", (re, res) => {
   res.json({

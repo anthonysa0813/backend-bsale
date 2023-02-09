@@ -39,6 +39,14 @@ const Phase1Schema = Schema(
   }
 );
 
+Phase1Schema.methods.toJSON = function () {
+  const { _id: id, __v, ...rest } = this.toObject();
+  return {
+    id,
+    ...rest,
+  };
+};
+
 const modelPhase1 = model("Phase1", Phase1Schema);
 
 module.exports = modelPhase1;

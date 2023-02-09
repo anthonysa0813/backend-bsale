@@ -6,21 +6,27 @@ const Cookies = require("js-cookie");
 
 const getAllUser = async (req = request, res = response) => {
   try {
-    const users = await User.find().exec();
-    return res.json(users);
+    const { email } = req.query;
+    if (email) {
+      const user = await User.findOne({ email });
+      return res.json(user);
+    } else {
+      const Users = await User.find();
+      res.status(200).json(Users);
   } catch (error) {
-    console.log(error);
     res.status(404).json({
-      message: "Hubo un error al traer todos los usuarios",
+      message: "Hubo un error",
     });
   }
-};
+}
+}
 
 const searchUser = async (req = request, res = response) => {
   try {
     const { email } = req.body;
+    const { idUser } = req.params;
 
-    const user = await User.findOne({ email: "test1@gmail.com" });
+    const user = await User.findOne({ email });
     return res.json(user);
   } catch (error) {
     res.status(404).json({

@@ -12,6 +12,14 @@ const AlternativeSchema = Schema({
   },
 });
 
+AlternativeSchema.methods.toJSON = function () {
+  const { _id: id, __v, ...rest } = this.toObject();
+  return {
+    id,
+    ...rest,
+  };
+};
+
 const AlternativeModel = model("Alternative", AlternativeSchema);
 
 module.exports = AlternativeModel;

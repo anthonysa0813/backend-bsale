@@ -35,7 +35,11 @@ router.post(
   loginUser
 );
 
+
 router.delete("/:uid", deleteUser);
+
+router.get("/searchUser/:idUser", searchUser);
+
 
 router.get("/searchUser", searchUser);
 
