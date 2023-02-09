@@ -13,13 +13,13 @@ const getAllUser = async (req = request, res = response) => {
     } else {
       const Users = await User.find();
       res.status(200).json(Users);
-  } catch (error) {
+  } }catch (error) {
     res.status(404).json({
       message: "Hubo un error",
     });
   }
 }
-}
+
 
 const searchUser = async (req = request, res = response) => {
   try {
