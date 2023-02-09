@@ -13,13 +13,13 @@ const getAllUser = async (req = request, res = response) => {
     } else {
       const Users = await User.find();
       res.status(200).json(Users);
-    }
   } catch (error) {
     res.status(404).json({
       message: "Hubo un error",
     });
   }
-};
+}
+}
 
 const searchUser = async (req = request, res = response) => {
   try {
@@ -71,9 +71,24 @@ const updateUser = async (req = request, res = response) => {
 };
 
 const deleteUser = async (req = request, res = response) => {
-  res.status(200).json({
-    message: "delete user",
-  });
+  try {
+    const { uid } = req.body;
+    const user = await User.findOneAndDelete(uid);
+
+    if (!user) {
+      return res.status(400).json({
+        message: "No se encontro el usuario con el id especificado",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Usuario eliminado exitosamente",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Hubo un error al intentar eliminar el usuario",
+    });
+  }
 };
 
 const loginUser = async (req = request, res = response) => {

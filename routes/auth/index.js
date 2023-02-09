@@ -4,18 +4,14 @@ const {
   createUser,
   loginUser,
   searchUser,
+  deleteUser,
 } = require("../../controller/auth/users");
 const { check } = require("express-validator");
 const validationFields = require("../../middlewares/validateFields");
-const {
-  getAllAdmin,
-  createAdmin,
-  loginAdmin,
-} = require("../../controller/auth/admin");
 
 const router = Router();
 
-router.get("/", getAllUser);
+router.get("/allUsers", getAllUser);
 router.post(
   "/signup",
   [
@@ -39,30 +35,12 @@ router.post(
   loginUser
 );
 
+
+router.delete("/:uid", deleteUser);
+
 router.get("/searchUser/:idUser", searchUser);
 
-router.get("/admin", getAllAdmin);
-router.post(
-  "/admin/signup",
-  [
-    check("email", "el email es incorrecto ó está vacío")
-      .isEmail()
-      .not()
-      .isEmpty(),
-    check("password", "el password es requerido").not().isEmpty(),
-    validationFields,
-  ],
-  createAdmin
-);
 
-router.post(
-  "/admin/login",
-  [
-    check("email", "el email es requerido").isEmail().not().isEmpty(),
-    check("password", "el password es requerido").not().isEmpty(),
-    validationFields,
-  ],
-  loginAdmin
-);
+router.get("/searchUser", searchUser);
 
 module.exports = router;
