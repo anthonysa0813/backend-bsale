@@ -5,9 +5,15 @@ const generateJWT = require("../../helpers/generateJWT");
 const Cookies = require("js-cookie");
 
 const getAllUser = async (req = request, res = response) => {
-  res.status(200).json({
-    message: "all users",
-  });
+  try {
+    const users = await User.find().exec();
+    return res.json(users);
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({
+      message: "Hubo un error al traer todos los usuarios",
+    });
+  }
 };
 
 const searchUser = async (req = request, res = response) => {
@@ -59,9 +65,24 @@ const updateUser = async (req = request, res = response) => {
 };
 
 const deleteUser = async (req = request, res = response) => {
-  res.status(200).json({
-    message: "delete user",
-  });
+  try {
+    const { uid } = req.body;
+    const user = await User.findOneAndDelete(uid);
+
+    if (!user) {
+      return res.status(400).json({
+        message: "No se encontro el usuario con el id especificado",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Usuario eliminado exitosamente",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Hubo un error al intentar eliminar el usuario",
+    });
+  }
 };
 
 const loginUser = async (req = request, res = response) => {

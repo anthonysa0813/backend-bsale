@@ -11,6 +11,7 @@ const {
 const router = Router();
 
 router.get("/admin", getAllAdmin);
+
 router.post(
   "/admin/signup",
   [
