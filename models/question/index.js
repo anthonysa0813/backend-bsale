@@ -18,6 +18,11 @@ const QuestionSchema = Schema({
     ref: "Phase1",
     required: true,
   },
+  type: {
+    type: String,
+    required: [true, "the type is required"],
+    enum: ["select", "code"],
+  },
   alternatives: [
     {
       type: Schema.Types.ObjectId,

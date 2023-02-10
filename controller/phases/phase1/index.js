@@ -41,15 +41,21 @@ const createPhase1 = async (req = request, res = response) => {
 };
 
 const addUserToPhase1 = async (req = request, res = response) => {
-  const { email, idPhase } = req.body;
-  console.log({ email, idPhase });
-  const Phase1 = await PhaseOne.findOne({ _id: idPhase });
-  const user = await User.findOne({ email });
-  Phase1.user = [...Phase1.user, user];
-  Phase1.save();
-  return res.json({
-    message: "se ha agregado al usuario a la Fase 1",
-  });
+  try {
+    const { email, idPhase } = req.body;
+    const Phase1 = await PhaseOne.findOne({ _id: idPhase });
+    const user = await User.findOne({ email });
+    if (Phase1.user.includes(user._id)) {
+      return res.status(401).json({
+        message: "El usuario ya existe en esta fase",
+      });
+    }
+    Phase1.user = [...Phase1.user, user];
+    Phase1.save();
+    return res.json({
+      message: "se ha agregado al usuario a la Fase 1",
+    });
+  } catch (error) {}
 };
 
 module.exports = {
