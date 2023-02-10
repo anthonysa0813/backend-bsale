@@ -11,7 +11,7 @@ const validationFields = require("../../middlewares/validateFields");
 
 const router = Router();
 
-router.get("/allUsers", getAllUser);
+router.get("/", getAllUser);
 router.post(
   "/signup",
   [
@@ -35,11 +35,9 @@ router.post(
   loginUser
 );
 
-
 router.delete("/:uid", deleteUser);
 
 router.get("/searchUser/:idUser", searchUser);
-
 
 router.get("/searchUser", searchUser);
 
