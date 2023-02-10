@@ -18,8 +18,8 @@ const getAllUser = async (req = request, res = response) => {
 
 const searchUser = async (req = request, res = response) => {
   try {
-    const { email } = req.body;
-    const { idUser } = req.params;
+    // const { email } = req.body;
+    const { email } = req.params;
 
     const user = await User.findOne({ email });
     return res.json(user);
