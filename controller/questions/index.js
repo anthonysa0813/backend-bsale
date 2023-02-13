@@ -134,6 +134,22 @@ const runCode = async (req = request, res = response) => {
   });
 };
 
+const updateQuestion = async (req = request, res = response) => {
+  try {
+    const data = req.body;
+    const { id } = req.params;
+    const quest = await Question.findByIdAndUpdate(id, data, {
+      new: true,
+    });
+
+    return res.json(quest);
+  } catch (error) {
+    res.status(500).json({
+      error: error.message || "Hubo un error",
+    });
+  }
+};
+
 module.exports = {
   createQuestion,
   getAllQuestion,
@@ -142,4 +158,5 @@ module.exports = {
   testSecond,
   testThird,
   runCode,
+  updateQuestion,
 };
