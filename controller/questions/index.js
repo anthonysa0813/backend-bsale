@@ -121,20 +121,6 @@ async function testFunction(functionToTest) {
 }
 
 const runCode = async (req = request, res = response) => {
-  // Convert the string into a function using eval
-
-  const functionTest = `const myFunction = (name) => {
-  const separateName = name.split("")
-  let reverseName = []
-  for (let index = separateName.length - 1; index >= 0; index--) {
-   reverseName.push(separateName[index])
-  }
-  if (reverseName.join("") === name) {
-    return true
-  } else {
-    return false
-  }
-}`;
   // const testFunction = eval(functionTest);
   const { test1, test2, test3 } = req.body;
   const separateFunction = eval(req.body.code.split("const myFunction =")[1]);

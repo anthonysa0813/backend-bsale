@@ -28,7 +28,8 @@ class Server {
 
   router() {
     this.app.use(this.paths.auth, require("../routes/auth"));
-    this.app.use(this.paths.phase1, require("../routes/phases/phase1"));
+    this.app.use(this.paths.auth, require("../routes/admin")),
+      this.app.use(this.paths.phase1, require("../routes/phases/phase1"));
   }
 
   listen() {
