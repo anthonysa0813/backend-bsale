@@ -61,8 +61,9 @@ const createUser = async (req = request, res = response) => {
 
 const updateUser = async (req = request, res = response) => {
   try {
-    const { uid, name, email, password } = req.body;
-    const user = await User.findOne({ uid });
+    const { name, email, password } = req.body;
+
+    const user = await User.findOne({ _id: req.params.uid });
     if (!user) {
       return res.status(404).json({
         message: "El usuario no se encontró en la base de datos",
@@ -71,7 +72,7 @@ const updateUser = async (req = request, res = response) => {
     user.name = name;
     user.email = email;
     user.password = password;
-    
+
     await user.save();
     return res.status(200).json({
       message: "El usuario se actualizó con éxito",
@@ -84,8 +85,7 @@ const updateUser = async (req = request, res = response) => {
 
 const deleteUser = async (req = request, res = response) => {
   try {
-    const { uid } = req.body;
-    const user = await User.findOneAndDelete(uid);
+    const user = await User.findOneAndDelete({ _id: req.params.uid });
 
     if (!user) {
       return res.status(400).json({

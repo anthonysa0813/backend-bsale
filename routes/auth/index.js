@@ -27,19 +27,7 @@ router.post(
   createUser
 );
 
-router.put(
-  "/update/:uid",
-  [
-    check("name", "el nombre es requerido").not().isEmpty(),
-    check("email", "el email es incorrecto ó está vacío")
-      .isEmail()
-      .not()
-      .isEmpty(),
-    check("password", "el password es requerido").not().isEmpty(),
-    validationFields,
-  ],
-  updateUser
-);
+router.put("/update/:uid", updateUser);
 
 router.post(
   "/login",
