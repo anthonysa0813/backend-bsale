@@ -7,7 +7,7 @@ const Cookies = require("js-cookie");
 const getAllUser = async (req = request, res = response) => {
   try {
     const users = await User.find().exec();
-    return res.json(users)
+    return res.json(users);
   } catch (error) {
     console.log(error);
     res.status(404).json({
@@ -18,8 +18,8 @@ const getAllUser = async (req = request, res = response) => {
 
 const searchUser = async (req = request, res = response) => {
   try {
-    const { email } = req.body;
-    const { idUser } = req.params;
+    // const { email } = req.body;
+    const { email } = req.params;
 
     const user = await User.findOne({ email });
     return res.json(user);
@@ -33,7 +33,7 @@ const searchUser = async (req = request, res = response) => {
 // create a new user
 const createUser = async (req = request, res = response) => {
   try {
-    const { email, password } = req.body;
+    const { name, email, password } = req.body;
 
     // verificar si el usuario existe en la base de datos
     const checkUser = await User.findOne({ email });
@@ -42,7 +42,7 @@ const createUser = async (req = request, res = response) => {
         message: "El usuario ya existe en la base de datos",
       });
     }
-    const user = await new User({ email, password });
+    const user = await new User({ name, email, password });
 
     // hashear el password
     const salt = await bcryptjs.genSaltSync();
@@ -60,9 +60,26 @@ const createUser = async (req = request, res = response) => {
 };
 
 const updateUser = async (req = request, res = response) => {
-  res.status(200).json({
-    message: "update user",
-  });
+  try {
+    const { uid, name, email, password } = req.body;
+    const user = await User.findOne({ uid });
+    if (!user) {
+      return res.status(404).json({
+        message: "El usuario no se encontró en la base de datos",
+      });
+    }
+    user.name = name;
+    user.email = email;
+    user.password = password;
+    
+    await user.save();
+    return res.status(200).json({
+      message: "El usuario se actualizó con éxito",
+      data: user,
+    });
+  } catch (error) {
+    throw new Error(error.message);
+  }
 };
 
 const deleteUser = async (req = request, res = response) => {
