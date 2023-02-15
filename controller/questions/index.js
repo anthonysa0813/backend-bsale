@@ -76,9 +76,9 @@ const createQuestion = async (req = request, res = response) => {
       alternatives: [alternative1, alternative2, alternative3, alternative4],
     });
 
-    const answerStructure = new AnswerModel({
+    const answerStructure = await new AnswerModel({
       value: answer,
-      question: questionObject.id,
+      question: questionObejct.id,
     });
     answerStructure.save();
     questionObejct.save();
