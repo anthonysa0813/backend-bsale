@@ -61,19 +61,29 @@ const createUser = async (req = request, res = response) => {
 
 const updateUser = async (req = request, res = response) => {
   try {
-    const { name, email, password } = req.body;
+    // const { name, email, password } = req.body;
 
-    const user = await User.findOne({ _id: req.params.uid });
-    if (!user) {
-      return res.status(404).json({
-        message: "El usuario no se encontró en la base de datos",
-      });
-    }
-    user.name = name;
-    user.email = email;
-    user.password = password;
+    // const user = await User.findOne({ _id: req.params.uid });
+    // if (!user) {
+    //   return res.status(404).json({
+    //     message: "El usuario no se encontró en la base de datos",
+    //   });
+    // }
+    // user.name = name;
+    // user.email = email;
+    // user.password = password;
 
-    await user.save();
+    // await user.save();
+    // return res.status(200).json({
+    //   message: "El usuario se actualizó con éxito",
+    //   data: user,
+    // });
+
+    const body = req.body;
+    const { uid } = req.params;
+    const user = await User.findByIdAndUpdate(uid, body, {
+      new: true,
+    });
     return res.status(200).json({
       message: "El usuario se actualizó con éxito",
       data: user,
