@@ -2,6 +2,7 @@ const { request, response } = require("express");
 const Question = require("../../models/question");
 const Alternative = require("../../models/alternatives");
 const jest = require("jest");
+const AnswerModel = require("../../models/answer");
 
 const getAllQuestion = async (req = request, res = response) => {
   try {
@@ -27,55 +28,66 @@ const createQuestion = async (req = request, res = response) => {
     idPhase,
   } = req.body;
 
-  if (
-    [
+  try {
+    if (
+      [
+        description,
+        image,
+        answer,
+        option1,
+        option2,
+        option3,
+        option4,
+        idPhase,
+      ].includes("")
+    ) {
+      return res.status(404).json({
+        message: "faltan campos",
+      });
+    }
+
+    // creacion de la tabla answer para este question
+
+    const alternative1 = new Alternative({
+      option: option1,
+      questionRef: idPhase,
+    });
+    const alternative2 = new Alternative({
+      option: option2,
+      questionRef: idPhase,
+    });
+    const alternative3 = new Alternative({
+      option: option3,
+      questionRef: idPhase,
+    });
+    const alternative4 = await new Alternative({
+      option: option4,
+      questionRef: idPhase,
+    });
+    alternative1.save();
+    alternative2.save();
+    alternative3.save();
+    alternative4.save();
+
+    const questionObejct = await new Question({
       description,
       image,
-      answer,
-      option1,
-      option2,
-      option3,
-      option4,
-      idPhase,
-    ].includes("")
-  ) {
-    return res.status(404).json({
-      message: "faltan campos",
+      phase1: idPhase,
+      alternatives: [alternative1, alternative2, alternative3, alternative4],
+    });
+
+    const answerStructure = await new AnswerModel({
+      value: answer,
+      question: questionObejct.id,
+    });
+    answerStructure.save();
+    questionObejct.save();
+    return res.json(questionObejct);
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
     });
   }
-
-  const alternative1 = new Alternative({
-    option: option1,
-    questionRef: idPhase,
-  });
-  const alternative2 = new Alternative({
-    option: option2,
-    questionRef: idPhase,
-  });
-  const alternative3 = new Alternative({
-    option: option3,
-    questionRef: idPhase,
-  });
-  const alternative4 = await new Alternative({
-    option: option4,
-    questionRef: idPhase,
-  });
-  alternative1.save();
-  alternative2.save();
-  alternative3.save();
-  alternative4.save();
-
-  const questionObejct = await new Question({
-    description,
-    image,
-    answer,
-    phase1: idPhase,
-    alternatives: [alternative1, alternative2, alternative3, alternative4],
-  });
-
-  questionObejct.save();
-
-  return res.json(questionObejct);
 };
 
 let testOne;
