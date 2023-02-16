@@ -76,12 +76,13 @@ const createQuestion = async (req = request, res = response) => {
       alternatives: [alternative1, alternative2, alternative3, alternative4],
     });
 
+    questionObejct.save();
+
     const answerStructure = await new AnswerModel({
       value: answer,
       question: questionObejct.id,
     });
     answerStructure.save();
-    questionObejct.save();
     return res.json(questionObejct);
   } catch (error) {
     res.status(400).json({
