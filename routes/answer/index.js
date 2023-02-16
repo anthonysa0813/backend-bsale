@@ -3,6 +3,6 @@ const { validateAnswer } = require("../../controller/answer");
 
 const router = Router();
 
-router.post("/validateAnswer", validateAnswer);
+router.post("/validateAnswer/:idQuestion/:idUser", validateAnswer);
 
 module.exports = router;
