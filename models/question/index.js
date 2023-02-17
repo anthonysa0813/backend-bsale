@@ -26,6 +26,7 @@ const QuestionSchema = Schema({
     type: String,
     required: [true, "the type is required"],
     enum: ["select", "code"],
+    default: "select",
   },
   alternatives: [
     {
