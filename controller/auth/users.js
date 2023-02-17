@@ -61,7 +61,6 @@ const createUser = async (req = request, res = response) => {
 
 const updateUser = async (req = request, res = response) => {
   try {
-  
     const body = req.body;
     const { uid } = req.params;
     const user = await User.findByIdAndUpdate(uid, body, {
@@ -101,9 +100,16 @@ const loginUser = async (req = request, res = response) => {
     const { email, password } = req.body;
     // ver si el usuario existe en la base de datos
     const user = await User.findOne({ email });
+
     if (!user) {
       return res.status(400).json({
         message: "El email no existe",
+      });
+    }
+
+    if (user.status === false) {
+      return res.status(400).json({
+        message: "Tu cuenta no esta autorizada",
       });
     }
 
@@ -119,7 +125,7 @@ const loginUser = async (req = request, res = response) => {
     const token = await generateJWT(user.uid);
     // Cookies.set("token", token, {expires: 7})
     user.token = token;
-    await user.save()
+    await user.save();
 
     return res.status(200).json({
       user,
