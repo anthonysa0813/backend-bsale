@@ -133,7 +133,7 @@ const loginUser = async (req = request, res = response) => {
     });
   } catch (error) {
     return res.status(500).json({
-      message: "Hubo un error",
+      message: `${error}`,
     });
   }
 };
