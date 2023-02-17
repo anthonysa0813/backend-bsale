@@ -61,24 +61,7 @@ const createUser = async (req = request, res = response) => {
 
 const updateUser = async (req = request, res = response) => {
   try {
-    // const { name, email, password } = req.body;
-
-    // const user = await User.findOne({ _id: req.params.uid });
-    // if (!user) {
-    //   return res.status(404).json({
-    //     message: "El usuario no se encontró en la base de datos",
-    //   });
-    // }
-    // user.name = name;
-    // user.email = email;
-    // user.password = password;
-
-    // await user.save();
-    // return res.status(200).json({
-    //   message: "El usuario se actualizó con éxito",
-    //   data: user,
-    // });
-
+  
     const body = req.body;
     const { uid } = req.params;
     const user = await User.findByIdAndUpdate(uid, body, {
@@ -135,6 +118,8 @@ const loginUser = async (req = request, res = response) => {
     // si es válido el password, vamos a generar el token.
     const token = await generateJWT(user.uid);
     // Cookies.set("token", token, {expires: 7})
+    user.token = token;
+    await user.save()
 
     return res.status(200).json({
       user,
@@ -146,6 +131,30 @@ const loginUser = async (req = request, res = response) => {
     });
   }
 };
+
+// const logoutUser = async (req = request, res = response) => {
+//   try {
+//     const token = req.headers.authorization.split(" ")[1];
+//     const user = await User.findOne({ token });
+
+//     if (!user) {
+//       return res.status(404).json({
+//         message: "Usuario no encontrado",
+//       });
+//     }
+
+//     user.token = null;
+//     await user.save();
+
+//     return res.status(200).json({
+//       message: "Logout exitoso",
+//     });
+//   } catch (error) {
+//     return res.status(500).json({
+//       message: "Hubo un error",
+//     });
+//   }
+// };
 
 module.exports = {
   getAllUser,

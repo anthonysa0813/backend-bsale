@@ -7,6 +7,7 @@ class Server {
     this.app = express();
     this.PORT = process.env.PORT || 3000;
     this.paths = {
+      admin: "/api/admin",
       auth: "/api/auth",
       admin: "/api/admin",
       phase1: "/api/phase1",
