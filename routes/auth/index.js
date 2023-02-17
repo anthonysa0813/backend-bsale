@@ -6,9 +6,11 @@ const {
   searchUser,
   deleteUser,
   updateUser,
+  logoutUser,
 } = require("../../controller/auth/users");
 const { check } = require("express-validator");
 const validationFields = require("../../middlewares/validateFields");
+const validateJWT = require("../../middlewares/validate-jwt");
 
 const router = Router();
 
@@ -21,25 +23,12 @@ router.post(
       .not()
       .isEmpty(),
     check("password", "el password es requerido").not().isEmpty(),
-    check("name", "el nombre es requerido").not().isEmpty(),
     validationFields,
   ],
   createUser
 );
 
-router.put(
-  "/update/:uid",
-  [
-    check("name", "el nombre es requerido").not().isEmpty(),
-    check("email", "el email es incorrecto ó está vacío")
-      .isEmail()
-      .not()
-      .isEmpty(),
-    check("password", "el password es requerido").not().isEmpty(),
-    validationFields,
-  ],
-  updateUser
-);
+router.put("/update/:uid", updateUser);
 
 router.post(
   "/login",
@@ -50,6 +39,8 @@ router.post(
   ],
   loginUser
 );
+
+// router.delete("/logout", validateJWT, logoutUser);
 
 router.delete("/:uid", deleteUser);
 
