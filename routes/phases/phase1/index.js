@@ -9,6 +9,9 @@ const validationFields = require("../../../middlewares/validateFields");
 const {
   createQuestion,
   getAllQuestion,
+  createStageWithCode,
+  runCode,
+  updateQuestion,
 } = require("../../../controller/questions");
 
 const router = Router();
@@ -42,6 +45,12 @@ router.delete("/", (re, res) => {
 
 // create Questions
 router.post("/question", createQuestion);
+
+router.post("/questionWithCode", createStageWithCode);
+
+router.put("/question/:id", updateQuestion);
+
+router.post("/run-code", runCode);
 
 router.get("/question", getAllQuestion);
 

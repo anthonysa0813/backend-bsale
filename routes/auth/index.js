@@ -5,9 +5,12 @@ const {
   loginUser,
   searchUser,
   deleteUser,
+  updateUser,
+  logoutUser,
 } = require("../../controller/auth/users");
 const { check } = require("express-validator");
 const validationFields = require("../../middlewares/validateFields");
+const validateJWT = require("../../middlewares/validate-jwt");
 
 const router = Router();
 
@@ -25,6 +28,8 @@ router.post(
   createUser
 );
 
+router.put("/update/:uid", updateUser);
+
 router.post(
   "/login",
   [
@@ -35,9 +40,11 @@ router.post(
   loginUser
 );
 
+// router.delete("/logout", validateJWT, logoutUser);
+
 router.delete("/:uid", deleteUser);
 
-router.get("/searchUser/:idUser", searchUser);
+router.get("/searchUser/:email", searchUser);
 
 router.get("/searchUser", searchUser);
 

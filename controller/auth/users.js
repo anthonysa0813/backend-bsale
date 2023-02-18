@@ -6,25 +6,20 @@ const Cookies = require("js-cookie");
 
 const getAllUser = async (req = request, res = response) => {
   try {
-    const { email } = req.query;
-    if (email) {
-      const user = await User.findOne({ email });
-      return res.json(user);
-    } else {
-      const Users = await User.find();
-      res.status(200).json(Users);
-    }
+    const users = await User.find().exec();
+    return res.json(users);
   } catch (error) {
+    console.log(error);
     res.status(404).json({
-      message: "Hubo un error",
+      message: "Hubo un error al traer todos los usuarios",
     });
   }
 };
 
 const searchUser = async (req = request, res = response) => {
   try {
-    const { email } = req.body;
-    const { idUser } = req.params;
+    // const { email } = req.body;
+    const { email } = req.params;
 
     const user = await User.findOne({ email });
     return res.json(user);
@@ -38,7 +33,7 @@ const searchUser = async (req = request, res = response) => {
 // create a new user
 const createUser = async (req = request, res = response) => {
   try {
-    const { email, password } = req.body;
+    const { name, email, password } = req.body;
 
     // verificar si el usuario existe en la base de datos
     const checkUser = await User.findOne({ email });
@@ -47,7 +42,7 @@ const createUser = async (req = request, res = response) => {
         message: "El usuario ya existe en la base de datos",
       });
     }
-    const user = await new User({ email, password });
+    const user = await new User({ name, email, password });
 
     // hashear el password
     const salt = await bcryptjs.genSaltSync();
@@ -65,15 +60,24 @@ const createUser = async (req = request, res = response) => {
 };
 
 const updateUser = async (req = request, res = response) => {
-  res.status(200).json({
-    message: "update user",
-  });
+  try {
+    const body = req.body;
+    const { uid } = req.params;
+    const user = await User.findByIdAndUpdate(uid, body, {
+      new: true,
+    });
+    return res.status(200).json({
+      message: "El usuario se actualizó con éxito",
+      data: user,
+    });
+  } catch (error) {
+    throw new Error(error.message);
+  }
 };
 
 const deleteUser = async (req = request, res = response) => {
   try {
-    const { uid } = req.body;
-    const user = await User.findOneAndDelete(uid);
+    const user = await User.findOneAndDelete({ _id: req.params.uid });
 
     if (!user) {
       return res.status(400).json({
@@ -96,9 +100,16 @@ const loginUser = async (req = request, res = response) => {
     const { email, password } = req.body;
     // ver si el usuario existe en la base de datos
     const user = await User.findOne({ email });
+
     if (!user) {
       return res.status(400).json({
         message: "El email no existe",
+      });
+    }
+
+    if (user.status === false) {
+      return res.status(400).json({
+        message: "Tu cuenta no esta autorizada",
       });
     }
 
@@ -113,6 +124,8 @@ const loginUser = async (req = request, res = response) => {
     // si es válido el password, vamos a generar el token.
     const token = await generateJWT(user.uid);
     // Cookies.set("token", token, {expires: 7})
+    user.token = token;
+    await user.save();
 
     return res.status(200).json({
       user,
@@ -120,10 +133,34 @@ const loginUser = async (req = request, res = response) => {
     });
   } catch (error) {
     return res.status(500).json({
-      message: "Hubo un error",
+      message: `${error}`,
     });
   }
 };
+
+// const logoutUser = async (req = request, res = response) => {
+//   try {
+//     const token = req.headers.authorization.split(" ")[1];
+//     const user = await User.findOne({ token });
+
+//     if (!user) {
+//       return res.status(404).json({
+//         message: "Usuario no encontrado",
+//       });
+//     }
+
+//     user.token = null;
+//     await user.save();
+
+//     return res.status(200).json({
+//       message: "Logout exitoso",
+//     });
+//   } catch (error) {
+//     return res.status(500).json({
+//       message: "Hubo un error",
+//     });
+//   }
+// };
 
 module.exports = {
   getAllUser,

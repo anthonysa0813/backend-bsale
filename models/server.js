@@ -7,8 +7,11 @@ class Server {
     this.app = express();
     this.PORT = process.env.PORT || 3000;
     this.paths = {
+      admin: "/api/admin",
       auth: "/api/auth",
+      admin: "/api/admin",
       phase1: "/api/phase1",
+      answer: "/api/answer",
     };
     this.middleware();
     this.router();
@@ -28,7 +31,9 @@ class Server {
 
   router() {
     this.app.use(this.paths.auth, require("../routes/auth"));
+    this.app.use(this.paths.admin, require("../routes/admin"));
     this.app.use(this.paths.phase1, require("../routes/phases/phase1"));
+    this.app.use(this.paths.answer, require("../routes/answer"));
   }
 
   listen() {

@@ -10,10 +10,10 @@ const {
 
 const router = Router();
 
-router.get("/admin", getAllAdmin);
+router.get("/", getAllAdmin);
 
 router.post(
-  "/admin/signup",
+  "/signup",
   [
     check("email", "el email es incorrecto ó está vacío")
       .isEmail()
@@ -26,7 +26,7 @@ router.post(
 );
 
 router.post(
-  "/admin/login",
+  "/login",
   [
     check("email", "el email es requerido").isEmail().not().isEmpty(),
     check("password", "el password es requerido").not().isEmpty(),

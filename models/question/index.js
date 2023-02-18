@@ -7,24 +7,46 @@ const QuestionSchema = Schema({
   },
   image: {
     type: String,
-    required: [true, "the image is required"],
+    required: false,
   },
   answer: {
     type: String,
-    required: [true, "the answer is required"],
+    required: false,
+  },
+  codeFunc: {
+    type: String,
+    required: false,
   },
   phase1: {
     type: Schema.Types.ObjectId,
     ref: "Phase1",
     required: true,
   },
+  type: {
+    type: String,
+    required: [true, "the type is required"],
+    enum: ["select", "code"],
+    default: "select",
+  },
   alternatives: [
     {
       type: Schema.Types.ObjectId,
       ref: "Alternative",
-      required: true,
+      required: false,
     },
   ],
+  test1: {
+    type: String,
+    required: false,
+  },
+  test2: {
+    type: String,
+    required: false,
+  },
+  test3: {
+    type: String,
+    required: false,
+  },
 });
 
 QuestionSchema.methods.toJSON = function () {
