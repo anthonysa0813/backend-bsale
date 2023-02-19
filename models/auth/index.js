@@ -22,6 +22,19 @@ const UserSchema = Schema({
     type: Number,
     require: false,
   },
+  stars: {
+    type: Number,
+    required: false,
+    default: 0,
+  },
+  ownerComment1: {
+    type: String,
+    required: false,
+  },
+  ownerComment2: {
+    type: String,
+    required: false,
+  },
 });
 
 UserSchema.methods.toJSON = function () {
