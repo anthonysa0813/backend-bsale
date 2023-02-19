@@ -135,7 +135,11 @@ async function testFunction(functionToTest) {
 
 const runCode = async (req = request, res = response) => {
   // const testFunction = eval(functionTest);
-  const { test1, test2, test3 } = req.body;
+  let { test1, test2, test3 } = req.body;
+
+  test1 = eval(test1);
+  test2 = eval(test2);
+  test3 = eval(test3);
   const separateFunction = eval(req.body.code.split("const myFunction =")[1]);
   const evaluate1 = separateFunction(test1[0]);
   const evaluate2 = separateFunction(test2[0]);
