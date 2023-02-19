@@ -27,6 +27,25 @@ const validateAnswer = async (req = request, res = response) => {
   }
 };
 
+const addScore = async (req, res) => {
+  try {
+    const { idUser } = req.params;
+    const user = await User.findById(idUser);
+    if (user) {
+      user.score = user.score + 1;
+      user.save();
+    }
+    return res.status(200).json({
+      message: "Score added successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   validateAnswer,
+  addScore,
 };
