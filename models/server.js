@@ -9,7 +9,6 @@ class Server {
     this.paths = {
       admin: "/api/admin",
       auth: "/api/auth",
-      admin: "/api/admin",
       phase1: "/api/phase1",
       answer: "/api/answer",
     };
