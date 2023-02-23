@@ -21,6 +21,7 @@ const UserSchema = Schema({
   score: {
     type: Number,
     require: false,
+    default: 0,
   },
   stars: {
     type: Number,
@@ -33,6 +34,16 @@ const UserSchema = Schema({
   },
   ownerComment2: {
     type: String,
+    required: false,
+  },
+  phase1Active: {
+    type: Boolean,
+    default: false,
+    required: false,
+  },
+  phase3Active: {
+    type: Boolean,
+    default: false,
     required: false,
   },
 });
