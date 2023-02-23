@@ -50,12 +50,19 @@ const addUserToPhase1 = async (req = request, res = response) => {
         message: "El usuario ya existe en esta fase",
       });
     }
+
+    user.phase1Active = true;
+    user.save();
     Phase1.user = [...Phase1.user, user];
     Phase1.save();
     return res.json({
       message: "se ha agregado al usuario a la Fase 1",
     });
-  } catch (error) {}
+  } catch (error) {
+    res.status(400).json({
+      message: "Error: " + error.message,
+    });
+  }
 };
 
 module.exports = {

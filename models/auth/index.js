@@ -35,6 +35,16 @@ const UserSchema = Schema({
     type: String,
     required: false,
   },
+  phase1Active: {
+    type: Boolean,
+    default: false,
+    required: false,
+  },
+  phase3Active: {
+    type: Boolean,
+    default: false,
+    required: false,
+  },
 });
 
 UserSchema.methods.toJSON = function () {
