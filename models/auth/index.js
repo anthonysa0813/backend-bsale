@@ -21,6 +21,7 @@ const UserSchema = Schema({
   score: {
     type: Number,
     require: false,
+    default: 0,
   },
   stars: {
     type: Number,
